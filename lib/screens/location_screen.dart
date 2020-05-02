@@ -46,6 +46,14 @@ class _LocationScreenState extends State<LocationScreen> {
     updateScreen(data);
   }
 
+  void getWeatherOfCity(String city) async {
+    if (city != null) {
+      var data = await weatherModel.getWeatherByCity(city);
+      print(data);
+      updateScreen(data);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,11 +85,13 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {
-                      Navigator.push(context,
+                    onPressed: () async {
+                      var poppedCity = await Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return CityScreen();
                       }));
+
+                      getWeatherOfCity(poppedCity);
                     },
                     child: Icon(
                       Icons.location_city,
